@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Route } from "react-router-dom";
 import styled from 'styled-components';
+import axios from 'axios';
 
 import Header from './Header';
 import BloomHeader from './BloomHeader';
@@ -11,6 +12,9 @@ import View from './View';
 import PrivateRoute from './PrivateRoute';
 
 const App = () => {
+  const [articles, setArticles] = useState([])
+  
+    
   return (
     <AppContainer>
       <BloomHeader/>
@@ -19,15 +23,15 @@ const App = () => {
         <Route exact path="/">
           <Login/>
         </Route>
-        <Route path="login">
+        <Route exact path="login">
           <Login/>          
         </Route>
-        <Route path="/view">
+        <PrivateRoute path="/view">
           <View />
-        </Route>
-        <Route path="/logout">
+        </PrivateRoute>
+        <PrivateRoute path="/logout">
           <Logout />
-        </Route>
+        </PrivateRoute>
       </RouteContainer>
     </AppContainer>
   )

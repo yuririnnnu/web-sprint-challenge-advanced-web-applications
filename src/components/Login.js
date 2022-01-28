@@ -1,12 +1,77 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import credentials from '../mocks/credentials';
+import axiosWithAuth from './../utils/axiosWithAuth';
+import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 const Login = () => {
-    
+    const {push} = useHistory()
+    const [error, setError] = useState('')
+    const [form, setForm] = useState({        
+        credentials:{
+            username:'',
+            password:''        
+        }    
+    })
+    const handleChange = e => {
+        setForm({
+            credentials:{
+                ...credentials,
+                [e.target.name]:e.target.value
+            }
+        })
+    }
+    const handleSubmit = e => {
+        e.preventDefault()        
+        axios.post('http://localhost:5000/api/login', form.credentials)
+            .then(res => {
+                localStorage.setItem('token', res.data.token)
+                push('/view')
+            })
+            .catch(err => {                
+                setError(err.response.data.error)
+                push('/')
+
+            })
+        setForm({
+            credentials:{
+                username:'',
+                password:''        
+            }    
+        })
+    }
+   
     return(<ComponentContainer>
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
+            <div className="input-form">
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Username
+                        <input 
+                        id='username'
+                        name='username'
+                        type='text'
+                        onChange={handleChange}
+                        value={form.credentials.username}
+                        />                    
+                    </label>
+                    <label>
+                        Password
+                        <input 
+                        name='password'
+                        id='password'
+                        type='password'
+                        onChange={handleChange}
+                        value={form.credentials.password}
+                        />
+                    </label>
+                    <button id='submit'>Submit</button>               
+                </form>
+                <p id='error'>{error}</p>
+            </div>
         </ModalContainer>
     </ComponentContainer>);
 }

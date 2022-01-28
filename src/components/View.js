@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import axiosWithAuth from './../utils/axiosWithAuth';
 import Article from './Article';
 import EditForm from './EditForm';
 
@@ -8,11 +8,27 @@ const View = (props) => {
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
-
+    
     const handleDelete = (id) => {
+        axiosWithAuth().delete(`/articles/${id}`)
+            .then(res => {                
+                setArticles(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const handleEdit = (article) => {
+        axiosWithAuth().put(`/articles/${article.id}`, article)
+            .then(res => {               
+                setArticles(res.data)
+                setEditing(false)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
     }
 
     const handleEditSelect = (id)=> {
@@ -23,7 +39,21 @@ const View = (props) => {
     const handleEditCancel = ()=>{
         setEditing(false);
     }
-
+    
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        axiosWithAuth().get(`/articles`, {
+            headers: {
+                authorization:token
+            }
+        })
+        .then(res => {
+            setArticles(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },[])
     return(<ComponentContainer>
         <HeaderContainer>View Articles</HeaderContainer>
         <ContentContainer flexDirection="row">
