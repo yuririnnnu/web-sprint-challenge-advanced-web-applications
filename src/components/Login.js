@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import credentials from '../mocks/credentials';
-import axiosWithAuth from './../utils/axiosWithAuth';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
@@ -31,9 +30,7 @@ const Login = () => {
                 push('/view')
             })
             .catch(err => {                
-                // console.log(err.response.data)
                 setError(err.response.data)
-                console.log(error)
                 push('/')
             })
             setForm({
@@ -42,7 +39,6 @@ const Login = () => {
                     password:''        
                 }
             })
-            console.log(error)
     }
    
     return(<ComponentContainer>
