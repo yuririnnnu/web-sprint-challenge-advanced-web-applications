@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const Login = () => {
     const {push} = useHistory()
-    const [error, setError] = useState({error:''})
+    const [error, setError] = useState({error:'error'})
     const [form, setForm] = useState({        
         credentials:{
             username:'',
@@ -46,29 +46,29 @@ const Login = () => {
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
             <div className="input-form">
-                <form onSubmit={handleSubmit}>
-                    <label>
+                <FormGroup >
+                    <Label>
                         Username
-                        <input 
+                        <Input 
                         id='username'
                         name='username'
                         type='text'
                         onChange={handleChange}
                         value={form.credentials.username}
                         />                    
-                    </label>
-                    <label>
+                    </Label>
+                    <Label>
                         Password
-                        <input 
+                        <Input 
                         name='password'
                         id='password'
                         type='password'
                         onChange={handleChange}
                         value={form.credentials.password}
                         />
-                    </label>
-                    <button id='submit'>Submit</button>               
-                </form>
+                    </Label>
+                    <Button id='submit' onClick={handleSubmit}>Submit</Button>               
+                </FormGroup>
                 {
                     error.error ? <p id='error'>error {error.error}</p> : <p id='error'></p>
                 }
