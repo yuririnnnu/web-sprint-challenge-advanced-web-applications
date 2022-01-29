@@ -12,17 +12,11 @@ import View from './View';
 import PrivateRoute from './PrivateRoute';
 
 const App = () => {
-  const [articles, setArticles] = useState([])
-  
-    
   return (
     <AppContainer>
       <BloomHeader/>
       <Header/>
       <RouteContainer>
-        <Route exact path="/">
-          <Login/>
-        </Route>
         <Route exact path="login">
           <Login/>          
         </Route>
@@ -32,6 +26,10 @@ const App = () => {
         <PrivateRoute path="/logout">
           <Logout />
         </PrivateRoute>
+        <Route exact path="/">
+          <Login/>
+        </Route>
+
       </RouteContainer>
     </AppContainer>
   )

@@ -117,9 +117,13 @@ In this project, you will demonstrate your mastery of these skills by creating *
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. Add your answers below.
 
 1. Explain what a token is used for.
+ a protocol which allows users to verify their identity, and in return receive a unique access
 
 2. What steps can you take in your web apps to keep your data secure?
+use token to verify the user whether they are allowed to see the data or not
 
 3. Describe how web servers work.
+it can store, process and deliver web pages to the users
 
 4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
+get method

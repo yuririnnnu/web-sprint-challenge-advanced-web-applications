@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import credentials from '../mocks/credentials';
 import axiosWithAuth from './../utils/axiosWithAuth';
-import axios from 'axios';
 import {useHistory} from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
     const {push} = useHistory()
-    const [error, setError] = useState('')
+    const [error, setError] = useState({error:''})
     const [form, setForm] = useState({        
         credentials:{
             username:'',
@@ -23,23 +23,26 @@ const Login = () => {
         })
     }
     const handleSubmit = e => {
-        e.preventDefault()        
+        e.preventDefault()
         axios.post('http://localhost:5000/api/login', form.credentials)
             .then(res => {
                 localStorage.setItem('token', res.data.token)
+                localStorage.setItem("username", res.data.username);
                 push('/view')
             })
             .catch(err => {                
-                setError(err.response.data.error)
+                // console.log(err.response.data)
+                setError(err.response.data)
+                console.log(error)
                 push('/')
-
             })
-        setForm({
-            credentials:{
-                username:'',
-                password:''        
-            }    
-        })
+            setForm({
+                credentials:{
+                    username:'',
+                    password:''        
+                }
+            })
+            console.log(error)
     }
    
     return(<ComponentContainer>
@@ -70,7 +73,9 @@ const Login = () => {
                     </label>
                     <button id='submit'>Submit</button>               
                 </form>
-                <p id='error'>{error}</p>
+                {
+                    error.error ? <p id='error'>error {error.error}</p> : <p id='error'></p>
+                }
             </div>
         </ModalContainer>
     </ComponentContainer>);
